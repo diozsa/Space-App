@@ -9,28 +9,63 @@ from forms import UserForm, SearchForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 import requests, random, math
-# from secrets import FLASK_KEY, API_KEY
+from secrets import FLASK_KEY, API_KEY, DB_USER, DB_PASSWORD
 #####################################
 # NEEDED FOR PRODUCTION DEBUGGIN ONLY
 # from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
 # toolbar = DebugToolbarExtension(app)
+
 #########################################
 # MUST SET UP THE 2 ENVIRON VARS in Terminal - SEE secrets.py
 # OR IMPORT THEM FROM secrets.py
 
-FLASK_KEY = dict(os.environ)["FLASK_KEY"]
-API_KEY = dict(os.environ)["API_KEY"]
+# FLASK_KEY = dict(os.environ)["FLASK_KEY"]
+# API_KEY = dict(os.environ)["API_KEY"]
 ############################################
 
-# in case the db url is setup with 'postgres' instead of 'postgresql'
-if os.environ.get("DATABASE_URL") == None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-        'DATABASE_URL', "postgresql:///space")
+
+# Determine the database type based on the DATABASE_URL environment variable
+db_url = os.environ.get("DATABASE_URL")
+
+if db_url:
+    if db_url and db_url.startswith(("postgres", "mysql", "mariadb")):
+        app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+    else:
+        raise ValueError("Unsupported database type in DATABASE_URL.")
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-        "DATABASE_URL").replace("://", "ql://", 1)
+    # Fallback to default configurations (MariaDB)
+    app.config['SQLALCHEMY_DATABASE_URI'] = ("postgresql:///space" if 'postgres' in os.environ.get("DB_TYPE", "").lower()
+        else f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@localhost/space")
+    
+    # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///space"
+
+    print("\nRunning Database - " + app.config['SQLALCHEMY_DATABASE_URI'])
+
+
+
+
+
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# !!!!!!!! UNCOMMENT THIS SECTION IF POSTGRESQL IS USED
+# Check if the URL starts with 'postgres' or 'postgresql'
+# if os.environ.get("DATABASE_URL") == None:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+#         'DATABASE_URL', "postgresql:///space")
+# else:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+#         "DATABASE_URL").replace("://", "ql://", 1)
+
+
+# #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# !!!!!!!! UNCOMMENT THIS SECTION IF MARIADB IS USED
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+#     'DATABASE_URL', f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@localhost/space"
+# )
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

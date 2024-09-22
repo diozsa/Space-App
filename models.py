@@ -17,8 +17,8 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.Text, nullable=False, unique=True)
-    password = db.Column(db.Text, nullable=False)
+    username = db.Column(db.String(255), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
 
     images = db.relationship("Image", backref="user", cascade="all, delete")
 
@@ -55,13 +55,13 @@ class Image(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # id = db.Column(db.String(100), primary_key=True, nullable=False, unique=True)
-    nasa_id = db.Column(db.Text)
-    title = db.Column(db.Text)
-    description = db.Column(db.Text)
-    photographer = db.Column(db.Text)
-    creator = db.Column(db.Text)
-    thumbnail = db.Column(db.Text)
-    full_size = db.Column(db.Text)
+    nasa_id = db.Column(db.String(255))
+    title = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+    photographer = db.Column(db.String(255))
+    creator = db.Column(db.String(255))
+    thumbnail = db.Column(db.String(255))
+    full_size = db.Column(db.String(255))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
 
