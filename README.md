@@ -41,22 +41,43 @@ Go to your bash terminal.
 - After cloning, install dependencies from requirements.txt
 > pip install -r requirements.txt
 ###### The app was written in Python-3.8.10 - in case you need a specific Python version. ######
-- ***While in (venv), set up 2 environmental variables from the terminal: API_KEY and FLASK_KEY.***
+- ***While in (venv), set up 4 environmental variables from the terminal: API_KEY, FLASK_KEY, DB_USER, DB_PASSWORD. You can also save or export these values from secret.py file.***
 > **Example:**
-
+    FLASK_KEY = "_some_randomized_string_"
+    API_KEY="DEMO_KEY"
+    OR
     export FLASK_KEY="_some_randomized_string_"
-    export API_KEY="245gpoi24g029gndfzgg24j" OR export API_KEY="DEMO_KEY"    
-
+    export API_KEY="DEMO_KEY"    
+###### Note - If PostgreSQL is used, DB_USER and DB_PASSWORD are not needed. For MariaDB, a db user / password needs to be setup in MariaDB. My recommendation is to stick to PostgreSQL, as it has a simpler setup. For hosting reasons, I added MariaDB as a secondary option. iF no database is found, the app will default to hardcoded db selection. Uncomment the correct db use in the config part of app.py ######
 You can quickly and easily get a new API key [here](https://api.nasa.gov) or you can use their DEMO_KEY.
 >#### The rate limits for the DEMO_KEY are:
->
 > - Hourly Limit: 30 requests per IP address per hour
 > - Daily Limit: 50 requests per IP address per day
-- start PostgreSQL
+
+#### For Postgresql use:
+- install PostgreSQL
+> sudo apt-get install postgresql
+- start PostgreSQL server
 > sudo service postgresql start
 - create DB
 > createdb space
 - create tables
 > python seed.py
-- start Flask server in the terminal with "flask run" command
+
+#### For Mariadb use:
+- perform a secure installation of MariaDB. Multiple steps process.
+- start Mariadb
+> sudo service mysql start
+- log in MariaDB with root account
+> mariadb -u root -p
+- create DB
+> CREATE DATABASE space;
+- verify db
+> SHOW DATABASES;
+> EXIT;
+- create tables
+> python seed.py
+
+- start Flask server
+> flask run
 - go to http://127.0.0.1:5000/

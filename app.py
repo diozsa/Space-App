@@ -35,23 +35,19 @@ if db_url:
     else:
         raise ValueError("Unsupported database type in DATABASE_URL.")
 else:
-    # Fallback to default configurations (MariaDB)
-    app.config['SQLALCHEMY_DATABASE_URI'] = ("postgresql:///space" if 'postgres' in os.environ.get("DB_TYPE", "").lower()
-        else f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@localhost/space")
     
+    # Fallback to HARDCODED CONFIG for postgresql or mariadb
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@localhost/space"    
     # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///space"
 
     print("\nRunning Database - " + app.config['SQLALCHEMY_DATABASE_URI'])
 
 
-
-
-
-
-
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# !!!!!!!! UNCOMMENT THIS SECTION IF POSTGRESQL IS USED
-# Check if the URL starts with 'postgres' or 'postgresql'
+
+# In production, some psql INSTANCES MIGHT BE "postgres" instead of "postgresql"
+# Check if the DB URL starts with 'postgres' or 'postgresql'
+
 # if os.environ.get("DATABASE_URL") == None:
 #     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
 #         'DATABASE_URL', "postgresql:///space")
@@ -59,13 +55,8 @@ else:
 #     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
 #         "DATABASE_URL").replace("://", "ql://", 1)
 
-
 # #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# !!!!!!!! UNCOMMENT THIS SECTION IF MARIADB IS USED
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-#     'DATABASE_URL', f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@localhost/space"
-# )
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
