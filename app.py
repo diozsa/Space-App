@@ -18,11 +18,13 @@ app = Flask(__name__)
 # toolbar = DebugToolbarExtension(app)
 
 #########################################
-# MUST SET UP THE 2 ENVIRON VARS in Terminal - SEE secrets.py
+# MUST SET UP THE ENVIRON VARS in Terminal - SEE secrets.py
 # OR IMPORT THEM FROM secrets.py
 
 # FLASK_KEY = dict(os.environ)["FLASK_KEY"]
 # API_KEY = dict(os.environ)["API_KEY"]
+# DB_USER = dict(os.environ)["DB_USER"]
+# DB_PASSWORD = dict(os.environ)["DB_PASSWORD"]
 ############################################
 
 
