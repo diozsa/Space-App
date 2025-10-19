@@ -64,12 +64,15 @@ You can quickly and easily get a new API key [here](https://api.nasa.gov) or you
 - create tables
 > python seed.py
 
-#### For Mariadb use:
+#### For Mariadb (mysql) use:
 - perform a secure installation of MariaDB. Multiple steps process.
 - start Mariadb
 > sudo service mysql start
 - log in MariaDB with root account
 > mariadb -u root -p
+- create DB user
+> CREATE USER 'space_user'@'localhost' IDENTIFIED BY 'your_password';
+> GRANT ALL PRIVILEGES ON space.* TO 'space_user'@'localhost';
 - create DB
 > CREATE DATABASE space;
 - verify db
