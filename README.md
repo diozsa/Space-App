@@ -1,7 +1,7 @@
-# Capstone1-Space-app
+# Space-App
 
 ## Title of Project
-NASA Visual Exploration - https://iozsa-space-app.herokuapp.com/
+NASA Visual Exploration - https://space.danlabs.dev
 ## Goal
 This app is intended to pique one’s interest about astronomy and increase curiosity about what’s out there - outer Space.
 The goal of this app is to offer the users a visual interaction, where simple searches can return amazing photos from NASA public APIs
